@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/student_management_system.dir/src/main.cpp.o -o student_management_system  libstudent.a 
