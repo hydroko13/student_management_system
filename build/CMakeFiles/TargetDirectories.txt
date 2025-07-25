@@ -1,0 +1,4 @@
+/home/maxim/Dev/student_management_system/build/CMakeFiles/student.dir
+/home/maxim/Dev/student_management_system/build/CMakeFiles/student_management_system.dir
+/home/maxim/Dev/student_management_system/build/CMakeFiles/edit_cache.dir
+/home/maxim/Dev/student_management_system/build/CMakeFiles/rebuild_cache.dir
