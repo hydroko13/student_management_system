@@ -10,8 +10,8 @@
 
 
 
-int generate_unique_student_id(std::mt19937& rd, std::unordered_map<int, Student> students_map) {
-    std::uniform_int_distribution<int> dist(0, 999999999);
+int generate_unique_student_id(std::mt19937& rd, const std::unordered_map<int, Student>& students_map) {
+    std::uniform_int_distribution<int> dist(1, 999999999);
     int r = dist(rd);
     while (students_map.count(r) > 0) {
         r = dist(rd);
@@ -24,17 +24,16 @@ int generate_unique_student_id(std::mt19937& rd, std::unordered_map<int, Student
 int main() {
 
 
-    std::random_device rd;
+    
     std::uniform_int_distribution<int> sdist(-15000000, 15000000);
-    std::mt19937 rng(rd());
+    std::mt19937 rng(std::random_device{}());
 
-    rng.seed(sdist(rd));
     
     
     
 
 
-    system("clear");
+    
 
     std::cout << "==== student management system by Maxim Kozlov ====" << std::endl;
     std::cout << "This software comes with absolutely no warranty" << std::endl;
@@ -42,7 +41,7 @@ int main() {
 
     std::unordered_map<int, Student> students_map;
 
-    
+    int selected_student_id = -1;
     
     while(true) {
         std::cout << "ENTER A COMMAND >> ";
@@ -55,10 +54,15 @@ int main() {
             for (auto pair : students_map) {
                 Student student = pair.second;
                 int id = pair.first;
-
-                std::cout << "Student ID: " << id << ", Name: " << student.getFirstName() << " " << student.getLastName() << ", Age: " << student.getAge().count() << std::endl;
+                if (id == selected_student_id) {
+                    std::cout << "(Selected) Student ID: " << id << ", Name: " << student.getFirstName() << " " << student.getLastName() << ", Age: " << student.getAge().count() << std::endl;
+                } else {
+                    std::cout << "           Student ID: " << id << ", Name: " << student.getFirstName() << " " << student.getLastName() << ", Age: " << student.getAge().count() << std::endl;
+                }
+                
             }
         }
+
         else if (in_string == "search") {
             std::cout << "QUERY: ";
             std::string in_string_qr;
@@ -69,10 +73,18 @@ int main() {
                 int id = pair.first;
                 
                 if (student.getFirstName().contains(in_string_qr)) {
-                    std::cout << "Student ID: " << id << ", Name: " << student.getFirstName() << " " << student.getLastName() << ", Age: " << student.getAge().count() << std::endl;
+                    if (id == selected_student_id) {
+                        std::cout << "(Selected) Student ID: " << id << ", Name: " << student.getFirstName() << " " << student.getLastName() << ", Age: " << student.getAge().count() << std::endl;
+                    } else {
+                        std::cout << "           Student ID: " << id << ", Name: " << student.getFirstName() << " " << student.getLastName() << ", Age: " << student.getAge().count() << std::endl;
+                    }
                 }
                 else if (student.getLastName().contains(in_string_qr)) {
-                    std::cout << "Student ID: " << id << ", Name: " << student.getFirstName() << " " << student.getLastName() << ", Age: " << student.getAge().count() << std::endl;
+                    if (id == selected_student_id) {
+                        std::cout << "(Selected) Student ID: " << id << ", Name: " << student.getFirstName() << " " << student.getLastName() << ", Age: " << student.getAge().count() << std::endl;
+                    } else {
+                        std::cout << "           Student ID: " << id << ", Name: " << student.getFirstName() << " " << student.getLastName() << ", Age: " << student.getAge().count() << std::endl;
+                    }
                 }
 
                 
@@ -120,21 +132,46 @@ int main() {
             std::cout << "Student ID: " << id << ", Name: " << student.getFirstName() << " " << student.getLastName() << ", Age: " << student.getAge().count() << std::endl;
             students_map.insert(std::pair<int, Student>(id, student));
         }
+
+        else if (in_string == "delete") {
+            
+            if (selected_student_id == -1) {
+                std::cout << "No student selected." << std::endl;
+            } else {
+                try {
+                    Student student = students_map.at(selected_student_id);
+
+                    std::cout << "Sucessfully deleted: Student ID: " << selected_student_id << ", Name: " << student.getFirstName() << " " << student.getLastName() << ", Age: " << student.getAge().count() << std::endl;
+                    students_map.erase(selected_student_id);
+
+                }  catch (const std::out_of_range&) {
+                    std::cout << "Invalid student ID" << std::endl;
+                }
+                
+
+                
+            }
+
+        }
+        
+
+        else if (in_string == "select") {
+            
+            std::cout << "STUDENT ID: ";
+            std::string in_string_id;
+            std::getline(std::cin, in_string_id);
+
+            selected_student_id = std::atoi(in_string_id.c_str());
+
+        }
+
+        
         
 
 
     }
 
-    // Student student(std::string("Maxim"), std::string("Kozlov"), std::chrono::year_month_day(std::chrono::year(2011), std::chrono::May, std::chrono::day(1)));
-    
-    // int uuid = generate_unique_student_id(rng, students_map);
-    
-    // students_map.insert(std::pair<int, Student>(uuid, student));
 
-    // std::cout << student.getFirstName() << std::endl;
-
-    // std::cout << student.getAge() << std::endl;
-     
     
     return 0;
 
