@@ -5,8 +5,8 @@
 
 
 /*
-* @class Student
-* @brief represents a student 
+* class Student
+* represents a student 
 *   
 * This class provides a representation of a student
 * It can store the first name, last name, date of birth, etc
@@ -28,14 +28,14 @@ class Student {
     public:
 
         /*
-        * @brief Constructs a new Student object
+        * Constructs a new Student object
         *   
         *  This constructor initializes a Student object with the specified first name, last name, and date of birth
         *  
-        *   @param first_name The first name of the student represented as a std::string
-        *   @param first_name The last name of the student represented as a std::string
-        *   @param date_of_birth The date of birth of the student represented using std::chrono::year_month_day
-        * 
+        *   param first_name The first name of the student represented as a std::string
+        *   param first_name The last name of the student represented as a std::string
+        *   param date_of_birth The date of birth of the student represented using std::chrono::year_month_day
+        *
         */
 
         Student(std::string first_name, std::string last_name, std::chrono::year_month_day date_of_birth);
